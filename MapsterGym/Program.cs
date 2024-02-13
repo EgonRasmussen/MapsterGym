@@ -16,9 +16,9 @@ internal class Program
         //    .TwoWays()
         //    .Map(dest => dest.EmailAddress, src => src.Email);
 
-        User source = destination.Adapt<User>();
+        User source = destination.Adapt<User>();        // From UserDto to User
 
-        UserDto destination2 = source.Adapt<UserDto>();
+        UserDto destination2 = source.Adapt<UserDto>(); // From User to UserDto
     }
 }
 
