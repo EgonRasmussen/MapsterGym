@@ -6,59 +6,40 @@ internal class Program
     {
         User source = new User
         {
-            Id = 1,
-            Name = "User 1",
-            Email = "test@example.com",
-            IsActive = true,
-            CreatedAt = DateTime.Now,
             Address = new Address
             {
-                AddressLine1 = "Address Line 1",
-                AddressLine2 = "Address Line 2",
-                City = "City",
-                State = "State",
-                Country = "Country",
-                ZipCode = "ZipCode"
-            }
+                ZipCode = "12345"
+            },
+
+            FirstName = "John",
+            LastName = "Doe"
         };
 
-        // Create new instance of UserDto and map the properties from source to destination
-        // Simple Type Mapping: Konverterer typen for CreatedAt fra DateTime til string
-        // Nested Type Mapping: Konverterer Address til Address
-        UserDto destination = source.Adapt<UserDto>();  
+        // In object flattening, we can map the nested properties to the top-level properties using a simple naming convention (Toplevelname + Sublevelname = "Address"+"ZipCode").
+        // 1. For instance, the Address.ZipCode nested property from the User source type can be mapped to AddressZipCode property in the UserDto destination type.
+        // 2. The FullName property in the UserDto destination type can be mapped to the GetFullName method in the User source type.
 
-        // Map to existing instance
-        UserDto destination1 = new();
-        source.Adapt(destination1);
+        UserDto destination = source.Adapt<UserDto>();  
     }
 }
 
 public class User
 {
-    public int Id { get; set; }
-    public string Name { get; set; } = null!;
-    public bool IsActive { get; set; }
-    public string Email { get; set; } = null!;
-    public DateTime CreatedAt { get; set; }
-    public Address Address { get; set; } = null!;
-}
+    public Address Address { get; set; } = null!;               // 1.
 
-public class UserDto
-{
-    public int Id { get; set; }
-    public string Name { get; set; } = null!;
-    public bool IsActive { get; set; }
-    public string Email { get; set; } = null!;
-    public string CreatedAt { get; set; } = null!;
-    public Address Address { get; set; } = null!;
+    public string FirstName { get; set; } = null!;              // 2.
+    public string LastName { get; set; } = null!;               // 2.
+    public string GetFullName() => $"{FirstName} {LastName}";   // 2.
 }
 
 public class Address
 {
-    public string AddressLine1 { get; set; } = null!;
-    public string AddressLine2 { get; set; } = null!;
-    public string City { get; set; } = null!;
-    public string State { get; set; } = null!;
-    public string Country { get; set; } = null!;
-    public string ZipCode { get; set; } = null!;
+    public string ZipCode { get; set; } = null!;                // 1.
+}
+
+public class UserDto
+{
+    public string AddressZipCode { get; set; } = null!;         // 1.
+
+    public string FullName { get; set; } = null!;               // 2.
 }
