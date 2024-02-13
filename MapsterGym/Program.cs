@@ -11,17 +11,20 @@ internal class Program
 
         // Mapping from dto to source. The only new thing here is the TwoWays method.
 
-        TypeAdapterConfig<User, UserDto>
-            .NewConfig()
-            .TwoWays()
-            .Map(dest => dest.EmailAddress, src => src.Email);
+        //TypeAdapterConfig<User, UserDto>
+        //    .NewConfig()
+        //    .TwoWays()
+        //    .Map(dest => dest.EmailAddress, src => src.Email);
 
         User source = destination.Adapt<User>();
+
+        UserDto destination2 = source.Adapt<UserDto>();
     }
 }
 
 public class User
 {
+    [AdaptMember("EmailAddress")]
     public string Email { get; set; } = null!;
 }
 
